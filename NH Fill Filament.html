@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NH Fill Filament</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE: confident maker brand, clean and technical, no fluff
+   IDEA: the page behaves like the NH Fill box itself: lid on top, window in the front, dieline inside
+   PICTURE: the assembled box with its round window showing the spool, flip door and clip-on lid
+   COLOUR and TYPE: black field, light grey #d9dcdf panels, white for the one accent; Archivo 800 + Inter
+   LAYOUT: full-width black bands, grey card panels, dieline drawn large, stacked under 600px */
+:root{color-scheme:dark;--bg:#0b0b0c;--bg2:#141416;--panel:#1c1d20;--grey:#d9dcdf;--grey2:#a7abb0;--mute:#80858b;--line:#2c2e32;--ink:#f3f4f5}
+:root[data-theme=light],:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:Archivo,Inter,sans-serif;line-height:1.05;text-wrap:balance;margin:0}
+h2{font-size:clamp(30px,4vw,44px);font-weight:800}
+h3{font-size:20px;font-weight:700}
+p{margin:0}
+a{color:inherit}
+html{scroll-padding-top:72px;scroll-behavior:smooth}
+.wrap{max-width:1240px;margin:0 auto}
+.band{padding:clamp(48px,7vw,96px) max(5vw,16px)}
+.lede{color:var(--grey2);font-size:17px;max-width:62ch}
+
+/* nav */
+nav{position:sticky;top:0;z-index:5;background:rgba(11,11,12,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:20px;padding:12px max(5vw,16px);flex-wrap:wrap}
+.logo{font-family:Archivo;font-weight:800;font-size:22px;text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo i{width:28px;height:28px;border-radius:50%;border:6px solid var(--grey);display:inline-block}
+.links{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+.links a{text-decoration:none;color:var(--grey2);padding:10px 12px;border-radius:8px;font-size:15px}
+.links a:hover,.links a:focus-visible{color:var(--ink);background:var(--panel)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 22px;border-radius:999px;font:600 15px Inter,sans-serif;text-decoration:none;border:1px solid var(--grey);cursor:pointer}
+.btn.solid{background:var(--grey);color:#0b0b0c}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,.links a:focus-visible{outline:2px solid #fff;outline-offset:3px}
+
+/* hero */
+.hero{background:radial-gradient(900px 500px at 75% 40%,#232428,transparent 70%),var(--bg)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(24px,4vw,64px);align-items:center}
+.hero h1{font-size:clamp(44px,7vw,84px);font-weight:800;letter-spacing:-.02em}
+.hero h1 span{color:var(--grey2)}
+.hero .lede{margin:20px 0 28px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.facts{display:flex;gap:28px;flex-wrap:wrap;margin-top:36px;padding-top:24px;border-top:1px solid var(--line)}
+.facts b{display:block;font:800 24px Archivo,sans-serif}
+.facts span{color:var(--mute);font-size:14px}
+.boxfig{width:100%;max-width:560px;margin-inline:auto;display:block}
+.spin{transform-origin:200px 268px;animation:spin 18s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.spin{animation:none}html{scroll-behavior:auto}}
+
+/* features */
+.grey{background:var(--grey);color:#0b0b0c}
+.grey .lede{color:#3d4146}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:40px}
+.card{background:#eceef0;border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:10px}
+.card svg{width:48px;height:48px}
+.card p{color:#3d4146;font-size:15px}
+
+/* dieline */
+.die{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start;margin-top:40px}
+.diefig{background:var(--bg2);border:1px solid var(--line);border-radius:20px;padding:clamp(12px,2vw,24px)}
+.diefig svg{width:100%;height:auto;display:block}
+.diefig text{font-family:Inter,sans-serif}
+.legend{display:flex;gap:18px;flex-wrap:wrap;color:var(--grey2);font-size:14px;margin-top:12px}
+.legend i{display:inline-block;width:22px;height:0;border-top:2px solid var(--grey);vertical-align:middle;margin-right:6px}
+.legend i.d{border-top-style:dashed}
+.legend i.g{height:12px;border:0;background:#8f9396;border-radius:2px}
+.parts{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.parts li{padding:16px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 16px}
+.parts li b{font-family:Archivo;font-size:17px}
+.parts li span.sz{color:var(--grey);white-space:nowrap;font-variant-numeric:tabular-nums;text-align:right}
+.parts li p{grid-column:1/-1;color:var(--grey2);font-size:15px}
+
+/* silica */
+.silica .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,72px);align-items:center}
+.silica svg{width:100%;max-width:440px;display:block;margin-inline:auto}
+.checks{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:12px}
+.checks li{padding-left:30px;position:relative;color:#2a2d31}
+.checks li::before{content:"";position:absolute;left:0;top:5px;width:16px;height:16px;border-radius:50%;background:#0b0b0c;box-shadow:inset 0 0 0 4px #d9dcdf,0 0 0 1px #0b0b0c}
+
+/* specs */
+table{width:100%;border-collapse:collapse;margin-top:32px;font-size:15px}
+th,td{text-align:left;padding:14px 12px;border-bottom:1px solid var(--line)}
+th{color:var(--mute);font-weight:500;font-size:14px}
+td:first-child{font-weight:600}
+td.n{white-space:nowrap;font-variant-numeric:tabular-nums}
+.swatch{display:inline-block;width:14px;height:14px;border-radius:50%;margin-right:8px;vertical-align:-2px;border:1px solid #555}
+.note{color:var(--mute);font-size:13px;margin-top:12px}
+
+/* order */
+.order .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,64px)}
+form{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:clamp(20px,3vw,32px);display:grid;gap:16px}
+label{display:grid;gap:6px;font-size:14px;color:var(--grey2)}
+input,select,textarea{font:16px Inter,sans-serif;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;min-height:46px;width:100%}
+textarea{min-height:110px;resize:vertical}
+.row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+pre{white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px;font:14px/1.5 ui-monospace,monospace;color:var(--grey);margin:0;display:none}
+pre.on{display:block}
+.status{font-size:14px;color:var(--grey2);min-height:1.4em}
+
+footer{border-top:1px solid var(--line);padding:32px max(5vw,16px);color:var(--mute);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+@media(max-width:900px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.die{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:700px){.hero .wrap,.silica .wrap,.order .wrap{grid-template-columns:minmax(0,1fr)}.links{margin-left:0;width:100%}}
+@media(max-width:600px){.cards{grid-template-columns:minmax(0,1fr)}.row2{grid-template-columns:minmax(0,1fr)}table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--line)}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:8em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7.5em;margin-inline-start:-8em;color:var(--mute);font-weight:400}.stack td:empty{display:none}}
+</style>
+<script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a class="logo" href="#top"><i></i>NH Fill</a>
+  <div class="links">
+    <a href="#box">The box</a><a href="#dry">Silica gel</a><a href="#range">Range</a><a href="#order">Order</a>
+  </div>
+</div></nav>
+
+<header class="band hero" id="top"><div class="wrap">
+  <div>
+    <h1>Filament that arrives <span>ready to print.</span></h1>
+    <p class="lede">NH Fill ships every spool in a box built for the workbench: a window to see what's left, a flip door to feed filament straight out, a clip-on lid, and a silica gel pack inside to keep it dry.</p>
+    <div class="cta"><a class="btn solid" href="#order">Order filament</a><a class="btn ghost" href="#box">See the box</a></div>
+    <div class="facts">
+      <div><b>20 × 7.6 × 22.9</b><span>box in cm</span></div>
+      <div><b>Flip door</b><span>feed without opening</span></div>
+      <div><b>Silica gel</b><span>in every box</span></div>
+    </div>
+  </div>
+
+  <svg class="boxfig" viewBox="0 0 520 470" role="img" aria-label="The NH Fill box: a grey box with a round front window showing the spool, a clip-on lid with a flip door on top">
+    <defs>
+      <linearGradient id="front" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e4e6e8"/><stop offset="1" stop-color="#c7cacd"/></linearGradient>
+      <linearGradient id="side" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9da1a5"/><stop offset="1" stop-color="#83878b"/></linearGradient>
+      <linearGradient id="top" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3f4f5"/><stop offset="1" stop-color="#d6d9dc"/></linearGradient>
+      <radialGradient id="win" cx=".5" cy=".45" r=".6"><stop offset="0" stop-color="#2a2c30"/><stop offset="1" stop-color="#0f1012"/></radialGradient>
+      <clipPath id="clipwin"><circle cx="200" cy="268" r="118"/></clipPath>
+    </defs>
+    <ellipse cx="270" cy="440" rx="230" ry="22" fill="#000" opacity=".55"/>
+    <!-- side -->
+    <polygon points="360,120 470,70 470,370 360,425" fill="url(#side)"/>
+    <!-- front -->
+    <rect x="40" y="120" width="320" height="305" fill="url(#front)"/>
+    <!-- lid top -->
+    <polygon points="40,120 150,70 470,70 360,120" fill="url(#top)"/>
+    <!-- lid skirt -->
+    <rect x="40" y="120" width="320" height="22" fill="#b9bdc1"/>
+    <polygon points="360,120 470,70 470,92 360,142" fill="#7b7f83"/>
+    <line x1="40" y1="142" x2="360" y2="142" stroke="#8d9195" stroke-width="1.5"/>
+    <!-- flip door on lid -->
+    <polygon points="92,108 150,82 250,82 192,108" fill="#fbfbfc" stroke="#8d9195" stroke-width="1.5"/>
+    <rect x="86" y="99" width="8" height="8" fill="#8d9195" transform="skewX(-20)"/>
+    <!-- window -->
+    <circle cx="200" cy="268" r="128" fill="#cfd2d5" stroke="#aeb2b6" stroke-width="2"/>
+    <circle cx="200" cy="268" r="118" fill="url(#win)"/>
+    <g clip-path="url(#clipwin)">
+      <g class="spin">
+        <circle cx="200" cy="268" r="108" fill="#3a3c40"/>
+        <g fill="none" stroke="#55585d" stroke-width="2">
+          <circle cx="200" cy="268" r="100"/><circle cx="200" cy="268" r="92"/><circle cx="200" cy="268" r="84"/><circle cx="200" cy="268" r="76"/><circle cx="200" cy="268" r="68"/>
+        </g>
+        <circle cx="200" cy="268" r="58" fill="#d9dcdf"/>
+        <circle cx="200" cy="268" r="26" fill="#0b0b0c" stroke="#9da1a5" stroke-width="3"/>
+        <g fill="#0b0b0c"><circle cx="200" cy="228" r="7"/><circle cx="235" cy="288" r="7"/><circle cx="165" cy="288" r="7"/></g>
+      </g>
+      <path d="M90 200 Q200 150 310 200" stroke="#fff" stroke-opacity=".12" stroke-width="22" fill="none"/>
+    </g>
+    <!-- filament strand from door -->
+    <path d="M170 95 C175 40 240 20 300 32" stroke="#e9ebed" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- silica packet peeking label -->
+    <text x="200" y="415" text-anchor="middle" font-family="Archivo,sans-serif" font-weight="800" font-size="20" fill="#2a2d31">NH FILL</text>
+  </svg>
+</div></header>
+
+<section class="band grey" id="features"><div class="wrap">
+  <h2>Every detail of the box does a job.</h2>
+  <p class="lede" style="margin-top:14px">We designed the packaging around how people actually print: on a shelf, beside the printer, half-used and coming back to it next week.</p>
+  <div class="cards">
+    <div class="card">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20" fill="none" stroke="#0b0b0c" stroke-width="3"/><circle cx="24" cy="24" r="12" fill="#0b0b0c"/><circle cx="24" cy="24" r="5" fill="#d9dcdf"/></svg>
+      <h3>Round window</h3><p>See the colour and how much filament is left without opening anything.</p>
+    </div>
+    <div class="card">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="5" y="14" width="38" height="22" rx="3" fill="none" stroke="#0b0b0c" stroke-width="3"/><rect x="10" y="10" width="16" height="12" rx="2" fill="#0b0b0c" transform="rotate(-18 10 22)"/></svg>
+      <h3>Flip door</h3><p>Lift the small door in the lid and feed filament straight to your printer.</p>
+    </div>
+    <div class="card">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="18" width="36" height="22" rx="2" fill="none" stroke="#0b0b0c" stroke-width="3"/><rect x="4" y="10" width="40" height="8" rx="2" fill="#0b0b0c"/><rect x="2" y="13" width="4" height="8" fill="#0b0b0c"/><rect x="42" y="13" width="4" height="8" fill="#0b0b0c"/></svg>
+      <h3>Clip-on lid</h3><p>A separate lid with a 1.5 cm skirt and four locking clips that snap shut.</p>
+    </div>
+    <div class="card">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="12" y="6" width="24" height="36" rx="4" fill="none" stroke="#0b0b0c" stroke-width="3" stroke-dasharray="4 3"/><g fill="#0b0b0c"><circle cx="20" cy="18" r="2.5"/><circle cx="28" cy="22" r="2.5"/><circle cx="21" cy="28" r="2.5"/><circle cx="28" cy="32" r="2.5"/></g></svg>
+      <h3>Silica gel inside</h3><p>A desiccant pack in every box pulls moisture out of the air around the spool.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="band" id="box"><div class="wrap">
+  <h2>The box, laid flat.</h2>
+  <p class="lede" style="margin-top:14px">One printed sheet folds into the open-top body; the lid is a second piece that clips on. Here is the dieline we print from.</p>
+  <div class="die">
+    <div class="diefig">
+      <svg viewBox="0 0 760 620" role="img" aria-label="Box dieline: lid on top; below it side, front with circular window, side and back panels, with the base under the front">
+        <g stroke="#d9dcdf" stroke-width="1.5">
+          <!-- lid -->
+          <rect x="342" y="10" width="64" height="24" fill="#3a3c40"/>
+          <rect x="342" y="178" width="64" height="24" fill="#3a3c40"/>
+          <rect x="226" y="80" width="24" height="44" fill="#3a3c40"/>
+          <rect x="498" y="80" width="24" height="44" fill="#3a3c40"/>
+          <rect x="248" y="54" width="252" height="96" fill="#2a2c30"/>
+          <rect x="268" y="34" width="212" height="144" fill="#2a2c30"/>
+          <rect x="276" y="62" width="196" height="80" rx="6" fill="#33353a"/>
+          <rect x="288" y="72" width="88" height="60" rx="6" fill="#d9dcdf" stroke="#0b0b0c"/>
+          <!-- body -->
+          <polygon points="80,252 64,262 64,476 80,488" fill="#8f9396"/>
+          <rect x="80" y="250" width="590" height="240" fill="#232428"/>
+          <rect x="180" y="490" width="196" height="76" fill="#2a2c30"/>
+          <polygon points="180,490 164,500 164,556 180,566" fill="#8f9396"/>
+          <polygon points="376,490 392,500 392,556 376,566" fill="#8f9396"/>
+          <polygon points="180,566 376,566 364,584 192,584" fill="#8f9396"/>
+          <circle cx="278" cy="372" r="86" fill="#2a2c30"/>
+          <circle cx="278" cy="372" r="78" fill="#55585d" stroke="none"/>
+          <circle cx="278" cy="372" r="42" fill="#2a2c30"/>
+          <circle cx="278" cy="372" r="26" fill="none"/>
+        </g>
+        <g stroke="#a7abb0" stroke-width="1.2" stroke-dasharray="6 5" fill="none">
+          <line x1="268" y1="54" x2="480" y2="54"/><line x1="268" y1="150" x2="480" y2="150"/>
+          <line x1="268" y1="54" x2="268" y2="150"/><line x1="480" y1="54" x2="480" y2="150"/>
+          <line x1="80" y1="258" x2="670" y2="258"/>
+          <line x1="180" y1="250" x2="180" y2="490"/><line x1="376" y1="250" x2="376" y2="490"/><line x1="474" y1="250" x2="474" y2="490"/>
+          <line x1="180" y1="490" x2="376" y2="490"/>
+        </g>
+        <g fill="#f3f4f5" font-size="15" font-weight="600" text-anchor="middle">
+          <text x="332" y="107" fill="#0b0b0c">Flip door</text>
+          <text x="426" y="107">Lid</text>
+          <text x="130" y="366">Side</text>
+          <text x="278" y="285">Front</text>
+          <text x="425" y="366">Side</text>
+          <text x="572" y="366">Back</text>
+          <text x="278" y="526">Base</text>
+        </g>
+        <g fill="#a7abb0" font-size="12" text-anchor="middle">
+          <text x="130" y="386">7.6 × 22.9</text>
+          <text x="425" y="386">7.6 × 22.9</text>
+          <text x="572" y="386">20 × 22.9 cm</text>
+          <text x="278" y="546">20 × 7.6 cm</text>
+          <text x="374" y="230">Lid · separate piece</text>
+          <text x="375" y="612">Window shows the spool</text>
+        </g>
+      </svg>
+      <div class="legend"><span><i></i>Cut</span><span><i class="d"></i>Fold</span><span><i class="g"></i>Glue tab</span></div>
+    </div>
+    <ul class="parts">
+      <li><b>Front</b><span class="sz">20 × 22.9 cm</span><p>Carries the round window so the spool is always on show.</p></li>
+      <li><b>Back</b><span class="sz">20 × 22.9 cm</span><p>Room for the material, colour and print settings label.</p></li>
+      <li><b>Sides</b><span class="sz">7.6 × 22.9 cm</span><p>Two narrow panels; a glue tab on the left side closes the tube.</p></li>
+      <li><b>Base</b><span class="sz">20 × 7.6 cm</span><p>Folds under the front with glue tabs on three edges.</p></li>
+      <li><b>Lid</b><span class="sz">20 × 7.6 cm</span><p>Separate piece, 1.5 cm skirt, four locking clips and the flip door. A rim lip runs along the open top of the body for it to sit on.</p></li>
+    </ul>
+  </div>
+</div></section>
+
+<section class="band grey silica" id="dry"><div class="wrap">
+  <svg viewBox="0 0 440 360" role="img" aria-label="A silica gel packet next to the spool">
+    <ellipse cx="220" cy="330" rx="190" ry="16" fill="#0b0b0c" opacity=".15"/>
+    <circle cx="160" cy="180" r="140" fill="#0b0b0c"/>
+    <g fill="none" stroke="#2c2e32" stroke-width="3"><circle cx="160" cy="180" r="124"/><circle cx="160" cy="180" r="110"/><circle cx="160" cy="180" r="96"/></g>
+    <circle cx="160" cy="180" r="74" fill="#eceef0"/>
+    <circle cx="160" cy="180" r="30" fill="#0b0b0c"/>
+    <g transform="rotate(8 330 200)">
+      <rect x="270" y="110" width="120" height="170" rx="10" fill="#fbfbfc" stroke="#0b0b0c" stroke-width="3"/>
+      <rect x="270" y="110" width="120" height="18" fill="#0b0b0c"/>
+      <rect x="270" y="262" width="120" height="18" fill="#0b0b0c"/>
+      <text x="330" y="160" text-anchor="middle" font-family="Archivo,sans-serif" font-weight="800" font-size="16" fill="#0b0b0c">SILICA GEL</text>
+      <text x="330" y="180" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#3d4146">Desiccant · do not eat</text>
+      <g fill="#a7abb0"><circle cx="305" cy="215" r="6"/><circle cx="325" cy="230" r="6"/><circle cx="350" cy="212" r="6"/><circle cx="315" cy="245" r="6"/><circle cx="345" cy="243" r="6"/><circle cx="360" cy="230" r="6"/></g>
+    </g>
+  </svg>
+  <div>
+    <h2>Dry filament prints cleaner.</h2>
+    <p class="lede" style="margin-top:14px">Filament picks up moisture from the air, which can lead to stringing, popping and weak layers. Each NH Fill box includes a silica gel pack that sits with the spool and soaks up humidity while it's stored.</p>
+    <ul class="checks">
+      <li>Silica gel pack in every box, beside the spool</li>
+      <li>Clip-on lid keeps the spool closed between prints</li>
+      <li>Keep the pack in the box after you start the spool</li>
+      <li>Silica gel is not food: keep it away from children and pets</li>
+    </ul>
+  </div>
+</div></section>
+
+<section class="band" id="range"><div class="wrap">
+  <h2>The range</h2>
+  <p class="lede" style="margin-top:14px">1.75 mm filament on 1 kg spools, packed in the NH Fill box.</p>
+  <div class="scroll">
+  <table class="stack">
+    <thead><tr><th>Material</th><th>Good for</th><th>Nozzle</th><th>Bed</th><th>Colours</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+  </div>
+  <p class="note">Sample range and settings — replace with your own line-up and tested temperatures.</p>
+</div></section>
+
+<section class="band order" id="order" style="background:var(--bg2)"><div class="wrap">
+  <div>
+    <h2>Order NH Fill</h2>
+    <p class="lede" style="margin-top:14px">Pick your material, colour and quantity. We'll put your order together as a message you can copy and send to us.</p>
+  </div>
+  <form id="f" novalidate>
+    <label>Your name<input id="nm" autocomplete="name" required></label>
+    <div class="row2">
+      <label>Material<select id="mat"></select></label>
+      <label>Colour<select id="col"></select></label>
+    </div>
+    <div class="row2">
+      <label>Spools<input id="qty" type="number" min="1" max="100" value="1" inputmode="numeric"></label>
+      <label>Phone or email<input id="ct" autocomplete="email"></label>
+    </div>
+    <label>Notes<textarea id="nt" placeholder="Delivery area, timing, anything else"></textarea></label>
+    <div class="cta"><button class="btn solid" type="submit">Build my order</button><button class="btn ghost" type="button" id="cp">Copy order</button></div>
+    <p class="status" id="st" aria-live="polite"></p>
+    <pre id="out"></pre>
+  </form>
+</div></section>
+
+<footer><div class="wrap"><span>© 2026 NH Fill</span><span>Filament in a box that works as hard as your printer.</span></div></footer>
+
+<script>
+{
+const range=[
+  {m:'PLA',use:'Everyday prints, models, prototypes',noz:'190–220 °C',bed:'50–60 °C',c:[['Black','#111'],['Light grey','#d9dcdf'],['White','#f5f5f5']]},
+  {m:'PETG',use:'Tougher, heat- and water-resistant parts',noz:'230–250 °C',bed:'70–85 °C',c:[['Black','#111'],['Light grey','#d9dcdf'],['Clear','#cfd8dc']]},
+  {m:'TPU',use:'Flexible parts, grips, phone cases',noz:'210–230 °C',bed:'40–60 °C',c:[['Black','#111'],['Grey','#8f9396']]}
+];
+const esc=s=>String(s).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+document.getElementById('rows').innerHTML=range.map(r=>`<tr><td>${r.m}</td><td>${r.use}</td><td class="n">${r.noz}</td><td class="n">${r.bed}</td><td>${r.c.map(([n,h])=>`<span style="white-space:nowrap;margin-right:10px"><i class="swatch" style="background:${h}"></i>${n}</span>`).join('')}</td></tr>`).join('');
+const mat=document.getElementById('mat'),col=document.getElementById('col');
+mat.innerHTML=range.map((r,i)=>`<option value="${i}">${r.m}</option>`).join('');
+const fillCol=()=>{col.innerHTML=range[mat.value].c.map(([n])=>`<option>${n}</option>`).join('')};
+fillCol();mat.addEventListener('change',fillCol);
+const out=document.getElementById('out'),st=document.getElementById('st');
+const build=()=>{
+  const v=id=>document.getElementById(id).value.trim();
+  const q=Math.max(1,parseInt(v('qty'))||1);
+  out.textContent=`NH Fill order\nName: ${v('nm')||'—'}\nMaterial: ${range[mat.value].m}\nColour: ${col.value}\nSpools: ${q}\nContact: ${v('ct')||'—'}\nNotes: ${v('nt')||'—'}`;
+  out.classList.add('on');
+};
+document.getElementById('f').addEventListener('submit',e=>{
+  e.preventDefault();
+  if(!document.getElementById('nm').value.trim()){st.textContent='Add your name to build the order.';document.getElementById('nm').focus();return}
+  build();st.textContent='Order ready. Copy it and send it to NH Fill.';
+});
+document.getElementById('cp').addEventListener('click',async()=>{
+  if(!out.classList.contains('on'))build();
+  try{await navigator.clipboard.writeText(out.textContent);st.textContent='Copied to clipboard.'}
+  catch(err){st.textContent='Copy blocked by the browser. Select the text below and copy it.'}
+});
+}
+</script>
+</body>
+</html>
